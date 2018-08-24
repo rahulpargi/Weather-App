@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View,Animated } from 'react-native';
 import Weather from './components/Weather';
-import {API_KEY} from './utils/WeatherAPiKeys'
+import {API_KEY} from './utils/WeatherAPiKeys';
+import {weatherCondition} from './components/WeatherCondition'
+
 
 export default class App extends React.Component {
   state={
