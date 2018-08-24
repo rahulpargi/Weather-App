@@ -8,7 +8,8 @@ export default class App extends React.Component {
     isLoading:false,
     temperature:0,
     weatherCondition:null,
-    error:null
+    error:null,
+    place:null
   };
   componentDidMount(){
     navigator.geolocation.getCurrentPosition(
@@ -31,10 +32,15 @@ export default class App extends React.Component {
     .then(res=>res.json())
     .then(json=>{
       //console.log(json);
+      console.log(json.weather[0].main);
+      console.log(json.name);
       this.setState({
         temperature:json.main.temp,
         weatherCondition:json.weather[0].main,
-        isLoading:false
+        isLoading:false,
+        place:json.name
+      
+        
       });
     });
   }
@@ -44,7 +50,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
       {isLoading?(
         <Text>Fetching Weather</Text>
-      ):<Weather weather={weatherCondition} temperature={temperature}/>}
+      ):<Weather weather={this.state.weatherCondition} temperature={this.state.temperature} place={this.state.place} />}
       </View>
       
     );
