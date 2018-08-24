@@ -12,7 +12,7 @@ const Weather=()=>{
             </View>
             <View style={styles.bodyContainer}>
                 <Text style={styles.title}>So Sunny</Text>
-                <Text>It hurts my eyes!</Text>
+                <Text style={styles.title}>It hurts my eyes!</Text>
 
             </View>
         </View>

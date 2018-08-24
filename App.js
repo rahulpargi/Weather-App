@@ -11,11 +11,32 @@ export default class App extends React.Component {
     error:null
   };
   componentDidMount(){
-    navigation.geolocation.getCurrentPosition(
+    navigator.geolocation.getCurrentPosition(
       position=>{
-        this.fetchWeather(position.coords.latitude,position.coords.longitude)
+        this.fetchWeather(position.coords.latitude,position.coords.longitude);
+
       },
+      error=>{
+        this.setState({
+          error:'Error Gettings Weather Condition'
+        });
+      }
     );
+  }
+
+  fetchWeather(lat=25,lon=25){
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
+    )
+    .then(res=>res.json())
+    .then(json=>{
+      //console.log(json);
+      this.setState({
+        temperature:json.main.temp,
+        weatherCondition:json.weather[0].main,
+        isLoading:false
+      });
+    });
   }
   render() {
     const {isLoading}=this.state;
@@ -23,16 +44,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
       {isLoading?(
         <Text>Fetching Weather</Text>
-      ):(
-        <View>
-          <Text>Weather App</Text>
-          <Weather/>
-          
-          
-        </View>
-        
-      
-      )}
+      ):<Weather weather={weatherCondition} temperature={temperature}/>}
       </View>
       
     );
@@ -43,7 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    
   },
 });
